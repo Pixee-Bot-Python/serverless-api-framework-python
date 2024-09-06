@@ -4,6 +4,7 @@ import subprocess
 import click
 
 from scw_serverless.config.route import GatewayRoute
+from security import safe_command
 
 GATEWAY_CLI = "scwgw"
 GATEWAY_PYPI = "scw-gateway"
@@ -29,8 +30,7 @@ class ServerlessGateway:
         self.cli = cli
 
     def _invoke_cli(self, args: list[str]) -> subprocess.CompletedProcess:
-        cmd = subprocess.run(
-            args=[self.cli] + args,
+        cmd = safe_command.run(subprocess.run, args=[self.cli] + args,
             check=True,
             stdout=subprocess.PIPE,
             universal_newlines=True,
