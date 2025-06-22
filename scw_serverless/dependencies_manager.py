@@ -5,6 +5,7 @@ import subprocess
 import sys
 from importlib.metadata import version
 from typing import Optional
+from security import safe_command
 
 REQUIREMENTS_NAME = "requirements.txt"
 
@@ -90,8 +91,7 @@ class DependenciesManager:
         ]
 
         try:
-            subprocess.run(
-                command,
+            safe_command.run(subprocess.run, command,
                 check=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
